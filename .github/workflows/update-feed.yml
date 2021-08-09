@@ -30,9 +30,8 @@ jobs:
         with:
           default: true
           toolchain: stable
-          command: install
           profile: minimal
-          args: --git https://github.com/NotCraft/NotFeed.git
+        run: cargo install --git https://github.com/NotCraft/NotFeed.git
       - name: Build the feed
         run: notfeed build
       - name: Deploy to GitHub Pages
