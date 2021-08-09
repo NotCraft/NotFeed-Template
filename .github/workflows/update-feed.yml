@@ -16,25 +16,17 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Cargo cache
-        uses: actions/cache@v2
+      - name: Download NotFeed
+        uses: houqp/download-release-assets-action@v1.0.1
         with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-          key: "rust-toolchains-cache"
-      - name: Install Rust Toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          default: true
-          toolchain: stable
-          profile: minimal
-      - name: Install NotFeed Binary
-        run: cargo install --git https://github.com/NotCraft/NotFeed.git
-      - name: Build the feed
-        run: notfeed build
+          repo: NotCraft/NotFeed
+          match: "notfeed-.+-x86_64-unknown-linux-musl.tar.gz$"
+          rename: notfeed.tgz
+      - name: Install NotFeed
+        run: |
+          tar -zxvf notfeed.tgz --strip-components 1 $(tar tf notfeed.tgz | grep /notfeed)
+          chmod +x notfeed
+          ./notfeed build
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
