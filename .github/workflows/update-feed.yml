@@ -25,12 +25,13 @@ jobs:
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
           key: "rust-toolchains-cache"
-      - name: Install NotFeed Binary
+      - name: Install Rust Toolchain
         uses: actions-rs/toolchain@v1
         with:
           default: true
           toolchain: stable
           profile: minimal
+      - name: Install NotFeed Binary
         run: cargo install --git https://github.com/NotCraft/NotFeed.git
       - name: Build the feed
         run: notfeed build
