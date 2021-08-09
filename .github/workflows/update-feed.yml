@@ -1,0 +1,42 @@
+name: Build site on schedule or main branch update
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    # Adjust refresh schedule here. By default, it runs once per day.
+    # Syntax reference: https://docs.github.com/en/actions/reference/events-that-trigger-workflows#schedule
+    # Recommended tool: https://crontab.guru/
+    - cron: "0 0 * * *"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cargo cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+          key: "rust-toolchains-cache"
+      - name: Install NotFeed Binary
+        uses: actions-rs/toolchain@v1
+        with:
+          default: true
+          toolchain: stable
+          command: install
+          profile: minimal
+          args: --git https://github.com/NotCraft/NotFeed.git
+      - name: Build the feed
+        run: notfeed build
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./target

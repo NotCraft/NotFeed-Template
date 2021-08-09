@@ -1,3 +1,9 @@
+# Idea
+.idea
+
+# NotFeed Files
+/target/
+
 # Logs
 logs
 *.log

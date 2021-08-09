@@ -1,2 +1,3 @@
-# NotFeed-Template
-Use this template to create the repo for your NotCraft::Feed reader.
+# About
+
+This is repository hosts the UI and content of an RSS feed reader.
