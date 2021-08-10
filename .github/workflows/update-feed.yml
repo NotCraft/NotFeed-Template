@@ -22,7 +22,7 @@ jobs:
           repo: NotCraft/NotFeed
           match: "notfeed-.+-x86_64-unknown-linux-musl.tar.gz$"
           rename: notfeed.tgz
-      - name: Install NotFeed
+      - name: Build rss
         run: |
           tar -zxvf notfeed.tgz --strip-components 1 $(tar tf notfeed.tgz | grep /notfeed)
           chmod +x notfeed
